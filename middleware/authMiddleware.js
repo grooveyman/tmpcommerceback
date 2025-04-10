@@ -1,0 +1,61 @@
+import jwt from 'jsonwebtoken';
+import User from '../models/userModel.js';
+import asyncHandler from './asyncHandler.js';
+
+const authenticate = asyncHandler(async (req, res, next) => {
+    let refreshtoken = req.cookies.refreshToken;
+    //get access token through bearer token header
+    let accesstoken;
+    let authHeader = req.headers.Authorization || req.headers.authorization;
+    
+    if(authHeader && authHeader.startsWith('Bearer')){
+        accesstoken = authHeader.split(" ")[1];
+        
+        if(!accesstoken){
+            return res.status(401).json({status:false, message:'Access token not provided'});
+        }
+    }
+
+    //verify refresh token
+    
+    
+    if(refreshtoken && accesstoken){
+        //check for refresh token expiry
+        try{
+            const refreshDecoded = jwt.verify(refreshtoken, process.env.SECRET_REFRESH);
+        }catch(err){
+            if(err.name === 'TokenExpiredError'){
+                return res.status(401).json({status:false, message:'Refresh Token expired'});
+            }
+            return res.status(401).json({status:false, message:err.message});
+        }
+
+        //check for access token expiry
+        try{            
+            const accessdecoded = jwt.verify(accesstoken, process.env.SECRET_ACCESS);
+            req.user = await User.findById(accessdecoded.userId).select('-password');
+            next();
+        }catch(error){
+            if(error.name === 'TokenExpiredError'){
+                return res.status(401).json({status:false, message:'Access Token expired'});
+            }
+            return res.status(401).json({status:false, message:error.message});
+        }
+
+        
+    }else{
+        return res.status(401).json({status:false, message:'Not authorized, no token provided'});
+    }
+});
+
+//check if user is admin
+const authorizeAdmin = (req, res, next) => {
+    
+    if(req.user && req.user.isAdmin){
+        next()
+    }else{
+        res.status(401).json({status:false, message:'Not authorized as an admin'});
+    }
+};
+
+export {authenticate, authorizeAdmin};
