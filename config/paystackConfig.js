@@ -31,9 +31,8 @@ const PayStack = (req) => {
                 return mycallback(new Error(`Failed with status code: ${response.statusCode}`), null);
             }
             
-
           };
-          
+            
           request.post(options, callback);
     }
 

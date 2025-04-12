@@ -2,6 +2,7 @@ import Order from "../models/orderModel.js";
 import asyncHandler from "../middleware/asyncHandler.js";
 import PayStack from "../config/paystackConfig.js";
 import Product from "../models/productModel.js";
+import { getUserCart } from "./cartController.js";
 
 const createOrder = async ({
   orderItems,
@@ -13,7 +14,7 @@ const createOrder = async ({
   user,
 }) => {
   // const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
-
+   
   if (orderItems && orderItems.length === 0) {
     return res
       .status(400)
@@ -21,8 +22,10 @@ const createOrder = async ({
   } else {
     //get the quantity of product and update it
    const updateres =  await Promise.all(orderItems.map(async (item) => {
-        return await updateStockQuantity(item.product, item.quantity)}
+        return await updateStockQuantity(item.productId, item.quantity)}
     ));
+
+
     const alltrue = updateres.every(result => result === true);
     if(!alltrue){
         return {success: false, error:'Could not update quantity', res:updateres};
@@ -47,14 +50,16 @@ const createOrder = async ({
   }
 };
 
+
+
 const updateStockQuantity = async (productid, quantity) => {
     try{
         const product = await Product.findById(productid);
         if(!product){
             return false;
         }
-        if(parseInt(product.quantity) <= 0){
-            return false;
+        if(parseInt(product.quantity) <= 0 || parseInt(product.quantity) < quantity){
+            return 'quantity less than 0 or more than available';
         }   
         product.quantity -= quantity;
         await product.save();   

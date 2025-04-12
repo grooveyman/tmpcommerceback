@@ -24,6 +24,23 @@ const userSchema = mongoose.Schema({
         default: false
     },
 
+    isVerified:{
+        type: Boolean,
+        required: true,
+        default: false
+    },
+
+    verificationToken:{
+        type: String,
+        required: false,
+    },
+
+    isPasswordChanged:{
+        type: Boolean,
+        required: true,
+        default: false
+    }
+
 }, 
 {timestamps: true}
 );

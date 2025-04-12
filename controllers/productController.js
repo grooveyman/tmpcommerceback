@@ -3,14 +3,13 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 
 const addProduct = asyncHandler(async (req, res) => {
-  const { name, description, price, category, user, quantity, slug } = req.body;
+  const { name, description, price, category, quantity, slug } = req.body;
 
   if (
     !name ||
     !description ||
     !price ||
     !category ||
-    !user ||
     !quantity ||
     !req.file
   ) {
@@ -37,7 +36,7 @@ const addProduct = asyncHandler(async (req, res) => {
           price,
           category,
           image: imageUrl,
-          user,
+          user:req.user._id,
           slug,
           quantity,
         });
@@ -59,7 +58,7 @@ const addProduct = asyncHandler(async (req, res) => {
 
 //update products
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, description, price, category, image } = req.body;
+  const { name, description, price, category} = req.body;
   const productId = req.params.id;
   const product = await Product.findById(productId);
 
@@ -221,6 +220,16 @@ const searchProducts = asyncHandler(async (req, res) => {
   }
 });
 
+//get product name by id
+const getProductNameById = async (prodId) => {
+    try{
+        const productName = await Product.findById(prodId).select('name');
+        return {success:true, results:productName.name};
+    }catch(error){
+        return {success:false, error:error.message};
+    }
+}
+
 export {
   addProduct,
   updateProduct,
@@ -229,4 +238,5 @@ export {
   deleteProductById,
   searchProducts,
   getProductsCat,
+  getProductNameById,
 };

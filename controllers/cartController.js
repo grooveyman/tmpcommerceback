@@ -1,12 +1,13 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import Cart from "../models/cartModel.js";
+import Product from "../models/productModel.js";
 
 const addToCart = asyncHandler(async (req, res) => {
-  const { productId, quantity, amount } = req.body;
+  const { productId, quantity } = req.body;
   const userId = req.user._id; // from authentication middleware
 
   // Check if the product already exists in the cart
-  if (!productId || !quantity || !amount) {
+  if (!productId || !quantity) {
     return res.status(400).json({
       status: false,
       message: "Please provide productId, quantity and amount",
@@ -15,22 +16,25 @@ const addToCart = asyncHandler(async (req, res) => {
 
   try {
     const existingCart = await Cart.findOne({ user: userId, productId });
+    //get amount from product
+    const productPrice = await Product.findById(productId).select('price');
+
     if (existingCart) {
       existingCart.quantity = quantity;
-      existingCart.amount = amount;
       await existingCart.save();
-      return res.json(200).json({
+      return res.status(200).json({
         status: true,
         message: "Product updated in cart",
         results: existingCart,
       });
     } else {
+        
       //create a new cart item
       const newCart = new Cart({
         user: userId,
         productId,
         quantity,
-        amount,
+        price:parseFloat(productPrice.price),
         status: "active",
       });
       await newCart.save();
@@ -62,6 +66,7 @@ const getUserCart = asyncHandler(async (req, res) => {
     return res.status(400).json({ status: false, message: error.message });
   }
 });
+
 
 //remove product from cart
 const removeCartItem = asyncHandler(async (req, res) => {

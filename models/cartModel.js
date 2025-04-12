@@ -8,7 +8,7 @@ const cartSchema = mongoose.Schema({
     ref: "User",
   },
 
-  amount: {
+  price: {
     type: Number,
     required: true,
   },

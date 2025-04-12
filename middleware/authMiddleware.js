@@ -17,12 +17,13 @@ const authenticate = asyncHandler(async (req, res, next) => {
     }
 
     //verify refresh token
-    
-    
+    let refreshuserid;
     if(refreshtoken && accesstoken){
         //check for refresh token expiry
         try{
             const refreshDecoded = jwt.verify(refreshtoken, process.env.SECRET_REFRESH);
+            refreshuserid = refreshDecoded.userId;
+
         }catch(err){
             if(err.name === 'TokenExpiredError'){
                 return res.status(401).json({status:false, message:'Refresh Token expired'});
@@ -33,6 +34,11 @@ const authenticate = asyncHandler(async (req, res, next) => {
         //check for access token expiry
         try{            
             const accessdecoded = jwt.verify(accesstoken, process.env.SECRET_ACCESS);
+            return res.json({refresh:refreshuserid, access:accessdecoded.userId});
+            if(refreshuserid !== accessdecoded.userId){
+                return res.status(401).json({status:false, message:'Invalid token'});
+            }
+
             req.user = await User.findById(accessdecoded.userId).select('-password');
             next();
         }catch(error){
