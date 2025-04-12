@@ -22,7 +22,7 @@ router.route('/auth/verify/resend').post(resendVerification);
 router.route('/auth/initiate-reset').post(sendResetPasswordEmail);
 //password reset completion
 router.route('/auth/reset/:resetToken').post(changePassword);
-//ADMIN ROUTEs
+//ADMIN ROUTES
 router.route('/:id').delete(authenticate, authorizeAdmin, deleteUserById).get(authenticate, authorizeAdmin, getUserById).put(authenticate, authorizeAdmin, updateUserById); 
 
 export default router;
