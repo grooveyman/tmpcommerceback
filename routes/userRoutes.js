@@ -1,8 +1,8 @@
-import express from "express";
+const express = require("express");
 // const validateToken = require("../middleware/validateToken");
-import {createUser, loginUser, logoutCurrentUser, getAllUsers, getCurrentUserProfile, updateCurrentUserProfile, deleteUserById, getUserById, updateUserById, refreshTheToken, resendVerification, verifyEmail, sendResetPasswordEmail, changePassword} from "../controllers/userController.js";
-import { authenticate, authorizeAdmin } from "../middleware/authMiddleware.js";
-import { checkEmailVerify } from "../middleware/checkEmailVerify.js";
+const {createUser, loginUser, logoutCurrentUser, getAllUsers, getCurrentUserProfile, updateCurrentUserProfile, deleteUserById, getUserById, updateUserById, refreshTheToken, resendVerification, verifyEmail, sendResetPasswordEmail, changePassword} = require("../controllers/userController");
+const { authenticate, authorizeAdmin } = require("../middleware/authMiddleware");
+const  { checkEmailVerify } = require("../middleware/checkEmailVerify");
 
 const router = express.Router();
 router.route('/register').post(createUser).get(authenticate, authorizeAdmin, getAllUsers);
@@ -25,4 +25,4 @@ router.route('/auth/reset/:resetToken').post(changePassword);
 //ADMIN ROUTES
 router.route('/:id').delete(authenticate, authorizeAdmin, deleteUserById).get(authenticate, authorizeAdmin, getUserById).put(authenticate, authorizeAdmin, updateUserById); 
 
-export default router;
+module.exports = router;

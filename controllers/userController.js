@@ -469,8 +469,7 @@ const changePassword = asyncHandler(async (req, res) => {
   }
 });
 
-
-export {
+module.exports = {
   createUser,
   loginUser,
   logoutCurrentUser,
@@ -485,4 +484,5 @@ export {
   verifyEmail,
   sendResetPasswordEmail,
   changePassword
-};
+}
+

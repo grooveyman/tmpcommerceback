@@ -1,5 +1,5 @@
-import { response } from "express";
-import request from "request";
+const { response } = require('express');
+const request = require('request');
 
 const PayStack = (req) => {
     const MySecretKey = process.env.PAYSTACK_SECRET_KEY;
@@ -54,4 +54,4 @@ const PayStack = (req) => {
       return {initializePayment, verifyPayment};
 }
 
-export default PayStack;
+module.exports = PayStack;

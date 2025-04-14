@@ -20,4 +20,4 @@ const htmlEmailTemplate = (verificationLink) => `
 <p>If you did not create an account, please ignore this email.</p>
 `;
 
-export default htmlEmailTemplate;
+module.exports = htmlEmailTemplate;

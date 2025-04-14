@@ -1,6 +1,6 @@
-import asyncHandler from "../middleware/asyncHandler.js";
-import Cart from "../models/cartModel.js";
-import Product from "../models/productModel.js";
+const asyncHandler = require('../middleware/asyncHandler');
+const Cart = require('../models/cartModel');
+const Product = require('../models/productModel');
 
 const addToCart = asyncHandler(async (req, res) => {
   const { productId, quantity } = req.body;
@@ -89,4 +89,4 @@ const removeCartItem = asyncHandler(async (req, res) => {
   }
 });
 
-export { addToCart, getUserCart, removeCartItem };
+module.exports =  { addToCart, getUserCart, removeCartItem };

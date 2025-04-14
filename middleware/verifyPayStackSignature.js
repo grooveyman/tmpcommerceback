@@ -1,4 +1,4 @@
-import asyncHandler from './asyncHandler.js';
+const asyncHandler = require('./asyncHandler');
 
 const verify = asyncHandler(async(req, res, buf, encoding) => {
     const crypto = require('crypto');
@@ -11,4 +11,4 @@ const verify = asyncHandler(async(req, res, buf, encoding) => {
     }
 });
 
-export default verify;
+module.exports = verify;

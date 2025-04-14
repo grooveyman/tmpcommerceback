@@ -1,11 +1,11 @@
-import asyncHandler from "../middleware/asyncHandler.js";
-import PayStack from "../config/paystackConfig.js";
-import request from "request";
-import { createOrder, updateOrder } from "./orderController.js";
-import { getUserCart } from "./cartController.js";
-import Cart from "../models/cartModel.js";
-import { getProductNameById } from "./productController.js";
-import Order from "../models/orderModel.js";
+const asyncHandler = require('../middleware/asyncHandler');
+const PayStack = require('../config/paystackConfig');
+const request = require('request');
+const { createOrder, updateOrder } = require('./orderController');
+const { getUserCart } = require('./cartController');
+const Cart = require('../models/cartModel');
+const { getProductNameById } = require('./productController');
+const Order = require('../models/orderModel');
 
 const initializePayment = asyncHandler(async (req, res) => {
   const paystack = PayStack(req);
@@ -194,4 +194,4 @@ const updateOrderStatus = async (reference, verifyData) => {
     }
 }
 
-export { initializePayment, verifyPayment, verifyWebHook };
+module.exports =  { initializePayment, verifyPayment, verifyWebHook };

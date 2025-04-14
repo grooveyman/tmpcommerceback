@@ -1,5 +1,5 @@
-import Category from "../models/categoryModel.js";
-import asyncHandler from "../middleware/asyncHandler.js";
+const Category = require('../models/categoryModel');
+const asyncHandler = require('../middleware/asyncHandler');
 
 const createCategory = asyncHandler(async (req, res) => {
   const { name, description, image } = req.body;
@@ -90,4 +90,4 @@ const deleteCategory = asyncHandler(async (req, res) => {
 });
 
 //export controller functions
-export { createCategory, getAllCategories, updateCategory, getCategoryById, deleteCategory };
+module.exports =  { createCategory, getAllCategories, updateCategory, getCategoryById, deleteCategory };

@@ -1,8 +1,8 @@
-import Order from "../models/orderModel.js";
-import asyncHandler from "../middleware/asyncHandler.js";
-import PayStack from "../config/paystackConfig.js";
-import Product from "../models/productModel.js";
-import { getUserCart } from "./cartController.js";
+const Order = require('../models/orderModel');
+const asyncHandler = require('../middleware/asyncHandler');
+const PayStack = require('../config/paystackConfig');
+const Product = require('../models/productModel');
+const { getUserCart } = require('./cartController');
 
 const createOrder = async ({
   orderItems,
@@ -98,4 +98,4 @@ const getAllOrders = asyncHandler(async (req, res) => {
   }
 });
 
-export { createOrder, updateOrder, getAllOrders };
+module.exports  = { createOrder, updateOrder, getAllOrders };

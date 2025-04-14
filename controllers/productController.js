@@ -1,6 +1,6 @@
-import Product from "../models/productModel.js";
-import asyncHandler from "../middleware/asyncHandler.js";
-import cloudinary from "../config/cloudinaryConfig.js";
+const Product = require('../models/productModel');
+const asyncHandler = require('../middleware/asyncHandler');
+const cloudinary = require('../config/cloudinaryConfig');
 
 const addProduct = asyncHandler(async (req, res) => {
   const { name, description, price, category, quantity, slug } = req.body;
@@ -230,13 +230,13 @@ const getProductNameById = async (prodId) => {
     }
 }
 
-export {
+module.exports = {
   addProduct,
   updateProduct,
   getAllProducts,
+  getProductsCat,
   getProductById,
   deleteProductById,
   searchProducts,
-  getProductsCat,
-  getProductNameById,
-};
+  getProductNameById
+}

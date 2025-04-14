@@ -1,4 +1,4 @@
-import transporter from "../config/mailConfig.js";
+const transporter = require('../config/mailConfig');
 
 const sendMail = async (to, subject, html) => {
     try{
@@ -17,4 +17,4 @@ const sendMail = async (to, subject, html) => {
     }
 };
 
-export default sendMail;
+module.exports = sendMail;

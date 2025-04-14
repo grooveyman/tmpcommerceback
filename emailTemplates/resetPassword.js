@@ -19,4 +19,4 @@ const resetPasswordTemplate = (resetLink) => `
 <p>If you did not request this, please ignore this email.</p>
 `;
 
-export default resetPasswordTemplate;
+module.exports = resetPasswordTemplate;
