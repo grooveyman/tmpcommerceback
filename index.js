@@ -11,7 +11,7 @@ import orderRoutes from './routes/orderRoutes.js';
 import cartRoutes from './routes/cartRoutes.js';
 import paystackRoutes from './routes/paystackRoutes.js';
 import cors from "cors";
-
+import serverless from 'serverless-http';
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -44,3 +44,6 @@ app.use('/api/payments', paystackRoutes)
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+
+
+module.exports = serverless(app);
