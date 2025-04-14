@@ -32,31 +32,31 @@ app.get("/test", (req, res) => {
 
 // Routes
 app.use("/api/users", userRoutes);
-console.log("Loaded /api/users");
+// console.log("Loaded /api/users");
 app.use("/api/categories", categoryRoutes);
-console.log("Loaded /api/category");
+// console.log("Loaded /api/category");
 app.use("/api/products", productRoutes);
-console.log("Loaded /api/products");
+// console.log("Loaded /api/products");
 app.use("/api/orders", orderRoutes);
-console.log("Loaded /api/orders");
+// console.log("Loaded /api/orders");
 app.use("/api/carts", cartRoutes);
-console.log("Loaded /api/cart");
+// console.log("Loaded /api/cart");
 app.use("/api/payments", paystackRoutes);
-console.log("Loaded /api/paystack");
+// console.log("Loaded /api/paystack");
 
 // Error handling middleware
 app.use(errorHandler);
 
 // Ensure database connection is established
 connectDb().then(() => {
-  console.log("Database connected successfully");
+//   console.log("Database connected successfully");
 }).catch((err) => {
-  console.error("Database connection failed:", err.message);
+//   console.error("Database connection failed:", err.message);
 });
 
-app.listen(5001, () => {
-  console.log("Server is running on port 5001");
-});
+// app.listen(5001, () => {
+//   console.log("Server is running on port 5001");
+// });
 
 
 // const handler = async (req, res) => {
