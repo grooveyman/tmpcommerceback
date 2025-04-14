@@ -46,4 +46,4 @@ app.listen(port, () => {
 });
 
 
-module.exports = serverless(app);
+module.exports.handler = serverless(app);
