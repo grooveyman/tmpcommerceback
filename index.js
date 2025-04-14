@@ -47,18 +47,31 @@ console.log("Loaded /api/paystack");
 // Error handling middleware
 app.use(errorHandler);
 
-// Export handler for Vercel serverless
-// let handler;
-const handler = async (req, res) => {
-  if (!handler._serverless) {
-    // Database connection
-    console.log("Connecting to DB...");
-    await connectDb();
-    console.log("DB connection completed");
+// Ensure database connection is established
+connectDb().then(() => {
+  console.log("Database connected successfully");
+}).catch((err) => {
+  console.error("Database connection failed:", err.message);
+});
 
-    handler._serverless = serverless(app);
-  }
-  return handler._serverless(req, res);
-};
+
+// const handler = async (req, res) => {
+//   if (!handler._serverless) {
+//     // Database connection
+//     console.log("Connecting to DB...");
+//     await connectDb();
+//     console.log("DB connection completed");
+
+//     handler._serverless = serverless(app);
+//   }
+//   return handler._serverless(req, res);
+// };
 // module.exports = serverless(app);
-module.exports = handler;
+// module.exports = handler;
+
+
+// Export the serverless handler directly
+module.exports = serverless(app);
+
+
+
