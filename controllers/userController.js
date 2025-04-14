@@ -7,7 +7,7 @@ import {
   generateAccessToken,
   generateRefreshToken,
 } from "../utils/createToken.js";
-import sendMail from "../utils/Mail.js";
+import sendMail from "../utils/mail.js";
 import htmlEmailTemplate from "../emailTemplates/verifyEmail.js";
 import resetPasswordTemplate from "../emailTemplates/resetPassword.js";
 
