@@ -3,14 +3,14 @@ const path = require("path");
 const express = require("express");
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
-const userRoutes = require("../routes/userRoutes");
-const errorHandler = require("../middleware/errorHandler");
-const connectDb = require("../config/dbConnection");
-const categoryRoutes = require("../routes/categoryRoutes");
-const productRoutes = require("../routes/productRoutes");
-const orderRoutes = require("../routes/orderRoutes");
-const cartRoutes = require("../routes/cartRoutes");
-const paystackRoutes = require("../routes/paystackRoutes");
+const userRoutes = require("./routes/userRoutes.js");
+const errorHandler = require("./middleware/errorHandler.js");
+const connectDb = require("./config/dbConnection.js");
+const categoryRoutes = require("./routes/categoryRoutes.js");
+const productRoutes = require("./routes/productRoutes.js");
+const orderRoutes = require("./routes/orderRoutes.js");
+const cartRoutes = require("./routes/cartRoutes.js");
+const paystackRoutes = require("./routes/paystackRoutes.js");
 const cors = require("cors");
 const serverless = require("serverless-http");
 
@@ -52,6 +52,10 @@ connectDb().then(() => {
   console.log("Database connected successfully");
 }).catch((err) => {
   console.error("Database connection failed:", err.message);
+});
+
+app.listen(5001, () => {
+  console.log("Server is running on port 5001");
 });
 
 
