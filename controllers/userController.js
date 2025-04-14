@@ -1,15 +1,15 @@
-import User from "../models/userModel.js";
-import asyncHandler from "../middleware/asyncHandler.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+const User = require("../models/userModel");
+const asyncHandler = require("../middleware/asyncHandler");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-import {
+const {
   generateAccessToken,
   generateRefreshToken,
-} from "../utils/createToken.js";
-import sendMail from "../utils/mail.js";
-import htmlEmailTemplate from "../emailTemplates/verifyEmail.js";
-import resetPasswordTemplate from "../emailTemplates/resetPassword.js";
+} = require("../utils/createToken");
+const sendMail = require("../utils/mail");
+const htmlEmailTemplate = require("../emailTemplates/verifyEmail");
+const resetPasswordTemplate = require("../emailTemplates/resetPassword");
 
 //reend verification
 const resendVerification = asyncHandler(async (req, res) => {

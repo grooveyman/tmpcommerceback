@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
-import User from '../models/userModel.js';
-import asyncHandler from './asyncHandler.js';
+const jwt = require('jsonwebtoken');
+const User = require('../models/userModel');
+const asyncHandler = require('./asyncHandler');
 
 const authenticate = asyncHandler(async (req, res, next) => {
     let refreshtoken = req.cookies.refreshToken;
