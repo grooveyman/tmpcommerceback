@@ -48,6 +48,7 @@ app.use("/api/payments", paystackRoutes);
 app.use(errorHandler);
 
 // Ensure database connection is established
+console.log("Initializing server...");
 connectDb().then(() => {
 //   console.log("Database connected successfully");
 }).catch((err) => {
