@@ -12,7 +12,7 @@ const orderRoutes = require("../routes/orderRoutes.js");
 const cartRoutes = require("../routes/cartRoutes.js");
 const paystackRoutes = require("../routes/paystackRoutes.js");
 const cors = require("cors");
-const serverless = require("serverless-http");
+// const serverless = require("serverless-http");s
 
 // Initialize dotenv
 dotenv.config();
@@ -76,7 +76,7 @@ app.listen(5002, () => {
 
 
 // Export the serverless handler directly
-module.exports = serverless(app);
+module.exports = app;
 
 
 
