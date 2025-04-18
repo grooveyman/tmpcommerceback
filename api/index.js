@@ -55,9 +55,9 @@ connectDb().then(() => {
 //   console.error("Database connection failed:", err.message);
 });
 
-app.listen(5002, () => {
-  console.log("Server is running on port 5002");
-});
+// app.listen(5002, () => {
+//   console.log("Server is running on port 5002");
+// });
 
 
 // const handler = async (req, res) => {
