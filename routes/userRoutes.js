@@ -5,7 +5,7 @@ const { authenticate, authorizeAdmin } = require("../middleware/authMiddleware")
 const  { checkEmailVerify } = require("../middleware/checkEmailVerify");
 
 const router = express.Router();
-router.route('/register').post(createUser).get(authenticate, authorizeAdmin, getAllUsers);
+router.route('/auth/register').post(createUser).get(authenticate, authorizeAdmin, getAllUsers);
 router.route('/auth/login').post(checkEmailVerify, loginUser);
 router.route('/auth/logout').post(logoutCurrentUser);
 router.route('/profile').get(authenticate, getCurrentUserProfile).put(authenticate, updateCurrentUserProfile);
