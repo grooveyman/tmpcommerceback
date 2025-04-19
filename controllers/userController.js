@@ -48,8 +48,6 @@ const resendVerification = asyncHandler(async (req, res) => {
   });
 });
 
-
-
 //geenrate token for email
 const generateEmailToken = async (email) => {
   try {
@@ -130,7 +128,11 @@ const sendEmailVerification = async (to) => {
     const html = htmlEmailTemplate(verificationLink);
     const mailres = await sendMail(to, subject, html);
     if (mailres.success) {
-      return { status: true, message: "Email sent successfully", token: emailtoken.token };
+      return {
+        status: true,
+        message: "Email sent successfully",
+        token: emailtoken.token,
+      };
     } else {
       return { status: false, error: mailres.error };
     }
@@ -148,18 +150,23 @@ const createUser = asyncHandler(async (req, res) => {
     });
   }
 
-  const userExists = await User.findOne({ email });
-  if (userExists)
-    return res
-      .status(400)
-      .json({ status: false, message: "User already exist" });
-
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-
-  const newUser = new User({ username, email, password: hashedPassword, isPasswordChanged: false });
-
   try {
+    const userExists = await User.findOne({ email });
+    if (userExists)
+      return res
+        .status(400)
+        .json({ status: false, message: "User already exist" });
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const newUser = new User({
+      username,
+      email,
+      password: hashedPassword,
+      isPasswordChanged: false,
+    });
+
     //create jwt token
     // const accessToken = generateAccessToken(res, newUser._id);
     const refreshToken = generateRefreshToken(res, newUser._id);
@@ -197,12 +204,6 @@ const createUser = asyncHandler(async (req, res) => {
   } catch (error) {
     return res.status(400).json({ status: false, message: error.message });
   }
-  // return res
-  //   .status(200)
-  //   .json({
-  //     status: true,
-  //     message: `Username: ${username}, email: ${email}, password: hidden`,
-  //   });
 });
 
 const refreshTheToken = asyncHandler(async (req, res) => {
@@ -256,7 +257,7 @@ const loginUser = asyncHandler(async (req, res) => {
             message: "Error generating token. Login failed",
           });
         }
-      }else{
+      } else {
         return res.status(400).json({
           status: false,
           message: "Invalid credentials",
@@ -376,7 +377,6 @@ const updateUserById = asyncHandler(async (req, res) => {
   }
 });
 
-
 //send reset password email
 const sendResetPasswordEmail = asyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -388,8 +388,16 @@ const sendResetPasswordEmail = asyncHandler(async (req, res) => {
     });
   }
   const user = await User.findOne({ email });
-  if (!user || (user.verificationToken !== undefined && user.isPasswordChanged)) {
-    return res.status(400).json({ status: false, message: "User not found or user already changed password" });
+  if (
+    !user ||
+    (user.verificationToken !== undefined && user.isPasswordChanged)
+  ) {
+    return res
+      .status(400)
+      .json({
+        status: false,
+        message: "User not found or user already changed password",
+      });
   }
   //generate reset password token
   const resetToken = jwt.sign({ userId: user._id }, process.env.SECRET_EMAIL, {
@@ -418,7 +426,6 @@ const sendResetPasswordEmail = asyncHandler(async (req, res) => {
       error: mailResponse.error,
     });
   }
-
 });
 
 //validate and change password
@@ -443,7 +450,6 @@ const changePassword = asyncHandler(async (req, res) => {
     if (!user) {
       return res.status(400).json({ status: false, message: "User not found" });
     }
-
 
     const isTokenValid = await bcrypt.compare(token, user.verificationToken);
     if (!isTokenValid) {
@@ -483,6 +489,5 @@ module.exports = {
   resendVerification,
   verifyEmail,
   sendResetPasswordEmail,
-  changePassword
-}
-
+  changePassword,
+};
