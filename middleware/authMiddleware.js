@@ -56,12 +56,17 @@ const authenticate = asyncHandler(async (req, res, next) => {
 
 //check if user is admin
 const authorizeAdmin = (req, res, next) => {
-    
-    if(req.user && req.user.isAdmin){
-        next()
-    }else{
-        res.status(401).json({status:false, message:'Not authorized as an admin'});
+    try{
+
+        if(req.user && req.user.isAdmin){
+            next()
+        }else{
+            return res.status(401).json({status:false, message:'Not authorized as an admin'});
+        }
+    }catch(error){
+        return res.status(401).json({status:false, message:error.message});
     }
+    
 };
 
 module.exports = {authenticate, authorizeAdmin};
